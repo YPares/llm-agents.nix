@@ -162,6 +162,16 @@ Nix packages for AI coding agents and development tools. Automatically updated d
 
 </details>
 <details>
+<summary><strong>linearis</strong> - CLI tool for Linear.app with JSON output, smart ID resolution, and optimized GraphQL queries</summary>
+
+- **Source**: source
+- **License**: MIT
+- **Homepage**: https://github.com/czottmann/linearis
+- **Usage**: `nix run github:numtide/llm-agents.nix#linearis -- --help`
+- **Nix**: [packages/linearis/package.nix](packages/linearis/package.nix)
+
+</details>
+<details>
 <summary><strong>mistral-vibe</strong> - Minimal CLI coding agent by Mistral AI - open-source command-line coding assistant powered by Devstral</summary>
 
 - **Source**: source
