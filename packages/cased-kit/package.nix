@@ -2,9 +2,18 @@
   lib,
   python3,
   fetchFromGitHub,
+  ignore-python,
 }:
 
-python3.pkgs.buildPythonApplication rec {
+let
+  python = python3.override {
+    self = python;
+    packageOverrides = _final: _prev: {
+      inherit ignore-python;
+    };
+  };
+in
+python.pkgs.buildPythonApplication rec {
   pname = "cased-kit";
   version = "3.0.0";
   pyproject = true;
@@ -16,12 +25,13 @@ python3.pkgs.buildPythonApplication rec {
     hash = "sha256-uDwCgkBQVN3YlPqJWiFrkXIvkWLKawyiCJ7RzPL5kKM=";
   };
 
-  build-system = with python3.pkgs; [ setuptools ];
+  build-system = with python.pkgs; [ setuptools ];
 
-  dependencies = with python3.pkgs; [
+  dependencies = with python.pkgs; [
     tree-sitter
     tree-sitter-language-pack
     pathspec
+    ignore-python
     numpy
     fastapi
     uvicorn
@@ -39,7 +49,7 @@ python3.pkgs.buildPythonApplication rec {
   ];
 
   optional-dependencies = {
-    all = with python3.pkgs; [
+    all = with python.pkgs; [
       sentence-transformers
       chromadb
     ];
@@ -50,14 +60,7 @@ python3.pkgs.buildPythonApplication rec {
     "click"
   ];
 
-  pythonRemoveDeps = [
-    "ignore-python"
-  ];
-
-  # pythonImportsCheck disabled because the package requires ignore-python,
-  # which isn't packaged in nixpkgs yet. The CLI and other features that don't
-  # depend on the repository mapper will still work.
-  pythonImportsCheck = [ ];
+  pythonImportsCheck = [ "kit" ];
 
   # Tests require API keys and external services
   doCheck = false;
